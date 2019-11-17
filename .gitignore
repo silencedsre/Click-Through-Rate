@@ -1,0 +1,7 @@
+/notebooks/.ipynb_checkpoints/
+/venv/
+/datasets/data/test.csv
+/datasets/data/train.csv
+/datasets/basicPythonBenchmark.csv
+/datasets/randomBenchmark.csv
+/datasets/testOrderBenchmark.csv
