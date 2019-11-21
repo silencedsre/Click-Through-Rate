@@ -1,5 +1,8 @@
 # click through rate prediction
 
+### Objective : 
+To find how likely the user clicks the search result based on these properties
+
 ## Data Description:  https://www.kaggle.com/c/expedia-personalized-sort/data
 
 ### General search info
