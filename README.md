@@ -50,4 +50,5 @@
 - **comp1_rate** -> **+1** if Expedia **has a lower price** than competitor 1 for the hotel;    **0 if the same**;     **-1** if Expedia’s **price is higher** than competitor 1; **null signifies there is no competitive data** (Lots and lots of null values expected)
 - comp1_inv -> +1 if competitor 1 does not have availability in the hotel; 0 if both Expedia and competitor 1 have availability; null signifies there is no competitive data (Not understood)
 - comp1_rate_percent_diff -> The absolute **percentage difference in price** (if one exists) between Expedia and competitor 1’s price (Expedia’s price the denominator); **null signifies there is no competitive data**
+
 -comp2_rate ....... same 
