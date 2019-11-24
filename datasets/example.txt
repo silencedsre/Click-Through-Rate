@@ -1,0 +1,2 @@
+place train.csv and train.csv inside datasets/data
+and basicPythonBenchmark.csv, randomBenchmark.csv, testOrderBenchmark.csv inside /datasets
