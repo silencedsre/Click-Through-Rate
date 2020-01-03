@@ -1,5 +1,5 @@
 import xlearn as xl
-from config.config import train_ffm_path, test_ffm_path, trained_model_path, final_output_path
+from config import train_ffm_path, test_ffm_path, trained_model_path, final_output_path
 
 # Training task
 ffm_model = xl.create_ffm() # Use field-aware factorization machine

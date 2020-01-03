@@ -10,7 +10,7 @@ encoder = {"currentcode": 0,
            "catcodes": {}
            }
 
-from config.config import (
+from config import (
                 train_csv_path,
                 test_csv_path,
                 sample_train_csv_path,
