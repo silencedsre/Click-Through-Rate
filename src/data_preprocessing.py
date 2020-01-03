@@ -4,6 +4,7 @@ from pathlib import Path
 from utils import create_sample, _convert_to_ffm
 
 MAX_NULL = 50000
+MAX_PRICE_USD = 5000
 
 encoder = {"currentcode": 0,
            "catdict": {},
@@ -39,46 +40,42 @@ def change_data_type(df):
 
     df[target] = df[target].astype('int8')
 
-    return target, numerics, categories
+    return target, numerics, categories, df
 
-def cleaning_csv_data(sampled_csv, processed_csv):
+def cleaning_csv_data(sampled_csv_path, processed_csv_path):
     '''
 
-    :param sampled_csv, processed_csv:
+    :param sampled_csv_path, processed_csv_path:
     :return: target, numerics, categories, df
     '''
 
-    if not Path(processed_csv).exists():
-        df = pd.read_csv(sampled_csv)
-        if sampled_csv == '../datasets/data/test_sample.csv':
+    if not Path(processed_csv_path).exists():
+        df = pd.read_csv(sampled_csv_path)
+        df = df.drop(['Unnamed: 0', 'date_time'], axis=1)
+        if sampled_csv_path == sample_test_csv_path:
             df['click_bool'] = 0
-            temp = 'test'
-            processed_csv_path = processed_test_csv_path
         else:
             df = df.drop('booking_bool', axis=1)
-            temp = 'train'
-            processed_csv_path = processed_train_csv_path
-
         null_counts = df.isnull().sum()
-        refined_cols = null_counts[null_counts < MAX_NULL]
-        cols = []
-        for key in refined_cols.keys():
-            cols.append(key)
-        df = df.filter(cols, axis=1)
-        df = df.drop(['Unnamed: 0', 'date_time'], axis=1)
+        null_counts_df = null_counts[null_counts < MAX_NULL]
+
+        refined_cols = []
+        for col in null_counts_df.keys():
+            refined_cols.append(col)
+        df = df.filter(refined_cols, axis=1)
+
         pd.to_numeric(df['prop_review_score'], errors='coerce')
         df['prop_review_score'].fillna((df['prop_review_score'].median()), inplace=True)
-        df = df[df.price_usd < 5000]
-        df.to_csv(processed_csv_path)
-        target, numerics, categories = change_data_type(df)
-        print(f"processed_{temp}.csv generated in datasets/data")
-        return target, numerics, categories, df
+        df = df[df.price_usd < MAX_PRICE_USD]
+        target, numerics, categories, new_df = change_data_type(df)
+        new_df.to_csv(processed_csv_path)
+        return target, numerics, categories, new_df
 
     else:
-        df = pd.read_csv(processed_csv)
+        df = pd.read_csv(processed_csv_path)
         df = df.drop('Unnamed: 0', axis=1)
-        target, numerics, categories = change_data_type(df)
-        return target, numerics, categories, df
+        target, numerics, categories, new_df = change_data_type(df)
+        return target, numerics, categories, new_df
 
 if __name__ == '__main__':
     if not Path(train_csv_path).exists() or not Path(test_csv_path).exists() :
