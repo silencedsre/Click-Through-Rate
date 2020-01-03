@@ -55,7 +55,7 @@ def cleaning_csv_data(sampled_csv_path, processed_csv_path):
         if sampled_csv_path == sample_test_csv_path:
             df['click_bool'] = 0
         else:
-            df = df.drop('booking_bool', axis=1)
+            df = df.drop(['position', 'booking_bool'], axis=1)
         null_counts = df.isnull().sum()
         null_counts_df = null_counts[null_counts < MAX_NULL]
 
