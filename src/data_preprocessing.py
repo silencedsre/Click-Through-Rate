@@ -24,7 +24,7 @@ from config import (
 def cleaning_csv_data(sampled_csv, processed_csv):
     '''
 
-    :param sampled_csv:
+    :param sampled_csv, processed_csv:
     :return: target, numerics, categories, df
     '''
 
@@ -55,9 +55,8 @@ def cleaning_csv_data(sampled_csv, processed_csv):
         categories = []
 
         for cols in df.columns:
-            if cols in numerics:
-                continue
-            categories.append(cols)
+            if not cols in numerics:
+                categories.append(cols)
         categories.remove('click_bool')
 
         for col in categories:
@@ -84,6 +83,20 @@ def cleaning_csv_data(sampled_csv, processed_csv):
             if cols in numerics:
                 continue
             categories.append(cols)
+
+        for cols in df.columns:
+            if not cols in numerics:
+                categories.append(cols)
+        categories.remove('click_bool')
+
+        for col in categories:
+            df[col] = df[col].astype('category')
+
+        for col in numerics:
+            df[col] = df[col].astype('float16')
+
+        df[target] = df[target].astype('int8')
+
         categories.remove('click_bool')
 
         return target, numerics, categories, df
