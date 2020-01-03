@@ -4,7 +4,7 @@
 To find how likely the user clicks the search result based on various attributes
 
 ## Data Download:  https://www.kaggle.com/c/expedia-personalized-sort/data
-After downloading the dataset, place `train.csv` and `test.csv` inside datasets/data
+After downloading the dataset, place `train.csv` and `test.csv` inside `datasets/data`
 
 # Runtime tested on: 
 Python 3.7.4
