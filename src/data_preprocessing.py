@@ -21,16 +21,16 @@ from config.config import (
                 test_ffm_path
 )
 
-def cleaning_csv_data(sampled_csv):
+def cleaning_csv_data(sampled_csv, processed_csv):
     '''
 
     :param sampled_csv:
     :return: target, numerics, categories, df
     '''
 
-    if not Path(processed_test_csv_path).exists():
+    if not Path(processed_csv).exists():
         df = pd.read_csv(sampled_csv)
-        if sampled_csv == '../datasets/data/sample_test.csv':
+        if sampled_csv == '../datasets/data/test_sample.csv':
             df['click_bool'] = 0
             temp = 'test'
             processed_csv_path = processed_test_csv_path
@@ -74,6 +74,20 @@ def cleaning_csv_data(sampled_csv):
 
         return target, numerics, categories, df
 
+    else:
+        df = pd.read_csv(processed_csv)
+        df = df.drop('Unnamed: 0', axis=1)
+        target = 'click_bool'
+        numerics = ['prop_review_score', 'prop_location_score1', 'prop_log_historical_price', 'price_usd']
+        categories = []
+        for cols in df.columns:
+            if cols in numerics:
+                continue
+            categories.append(cols)
+        categories.remove('click_bool')
+
+        return target, numerics, categories, df
+
 def return_dataframe(cleaned_csv_file):
     df = pd.read_csv(cleaned_csv_file)
     return df
@@ -85,33 +99,29 @@ if __name__ == '__main__':
 
     print('Creating train_sample if does not exist')
     create_sample(train_csv_path, sample_train_csv_path)
-    print('Creating train_sample if does not exist')
+    print('Creating test_sample if does not exist')
     create_sample(test_csv_path, sample_test_csv_path)
 
-    print("Cleaning sample train csv")
-    target_train, numerics_train, categories_train, df_train = cleaning_csv_data(sample_train_csv_path)
+    print("Creating processed_train.csv if does not exist")
+    target_train, numerics_train, categories_train, df_train = cleaning_csv_data(sample_train_csv_path, processed_train_csv_path)
+    print('Creating train_ffm.txt if does not exist')
     encoded_train = _convert_to_ffm(
         path=train_ffm_path,
         df= df_train,
-        type='train',
         target=target_train,
         numerics=numerics_train,
         categories=categories_train,
         encoder=encoder
     )
 
-    print("Cleaning sample test csv")
-    target_test, numerics_test, categories_test, df_test = cleaning_csv_data(test_csv_path)
+    print("Creating processed_test.csv if does not exist")
+    target_test, numerics_test, categories_test, df_test = cleaning_csv_data(sample_test_csv_path, processed_test_csv_path)
+    print('Creating test_ffm.txt if does not exist')
     encoded_test = _convert_to_ffm(
         path=test_ffm_path,
         df= df_test,
-        type='test',
         target=target_test,
         numerics=numerics_test,
         categories=categories_test,
         encoder=encoder
     )
-
-
-
-
