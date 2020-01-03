@@ -88,10 +88,6 @@ def cleaning_csv_data(sampled_csv, processed_csv):
 
         return target, numerics, categories, df
 
-def return_dataframe(cleaned_csv_file):
-    df = pd.read_csv(cleaned_csv_file)
-    return df
-
 if __name__ == '__main__':
     if not Path(train_csv_path).exists() or not Path(test_csv_path).exists() :
         print('train.csv or test.csv does not exist in datasets/data')
