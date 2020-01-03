@@ -21,6 +21,26 @@ from config import (
                 test_ffm_path
 )
 
+def change_data_type(df):
+    target = 'click_bool'
+    numerics = ['prop_review_score', 'prop_location_score1', 'prop_log_historical_price', 'price_usd']
+    categories = []
+
+    for cols in df.columns:
+        if not cols in numerics:
+            categories.append(cols)
+    categories.remove('click_bool')
+
+    for col in categories:
+        df[col] = df[col].astype('category')
+
+    for col in numerics:
+        df[col] = df[col].astype('float16')
+
+    df[target] = df[target].astype('int8')
+
+    return target, numerics, categories
+
 def cleaning_csv_data(sampled_csv, processed_csv):
     '''
 
@@ -49,52 +69,15 @@ def cleaning_csv_data(sampled_csv, processed_csv):
         pd.to_numeric(df['prop_review_score'], errors='coerce')
         df['prop_review_score'].fillna((df['prop_review_score'].median()), inplace=True)
         df = df[df.price_usd < 5000]
-
-        target = 'click_bool'
-        numerics = ['prop_review_score', 'prop_location_score1', 'prop_log_historical_price', 'price_usd']
-        categories = []
-
-        for cols in df.columns:
-            if not cols in numerics:
-                categories.append(cols)
-        categories.remove('click_bool')
-
-        for col in categories:
-            df[col] = df[col].astype('category')
-
-        for col in numerics:
-            df[col] = df[col].astype('float16')
-
-        df[target] = df[target].astype('int8')
-
         df.to_csv(processed_csv_path)
-
+        target, numerics, categories = change_data_type(df)
         print(f"processed_{temp}.csv generated in datasets/data")
-
         return target, numerics, categories, df
 
     else:
         df = pd.read_csv(processed_csv)
         df = df.drop('Unnamed: 0', axis=1)
-        target = 'click_bool'
-        numerics = ['prop_review_score', 'prop_location_score1', 'prop_log_historical_price', 'price_usd']
-        categories = []
-
-        for cols in df.columns:
-            if not cols in numerics:
-                categories.append(cols)
-        categories.remove('click_bool')
-
-        for col in categories:
-            df[col] = df[col].astype('category')
-
-        for col in numerics:
-            df[col] = df[col].astype('float16')
-
-        df[target] = df[target].astype('int8')
-
-        categories.remove('click_bool')
-
+        target, numerics, categories = change_data_type(df)
         return target, numerics, categories, df
 
 if __name__ == '__main__':
