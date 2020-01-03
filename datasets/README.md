@@ -1,4 +1,4 @@
-##`train.csv` and `test.csv` should be inside `datasets/data`
+## `train.csv` and `test.csv` should be inside `datasets/data`
 
 ## `train_sample.csv` and `test_sample.csv` will be generated from `data_preprocessing.py` inside `datasets/data`
 
