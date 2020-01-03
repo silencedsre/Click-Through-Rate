@@ -1,9 +1,14 @@
-import pandas as pd
-from utils import create_sample
-from pathlib import Path
 import sys
+import pandas as pd
+from pathlib import Path
+from utils import create_sample, _convert_to_ffm
 
 MAX_NULL = 50000
+
+encoder = {"currentcode": 0,
+           "catdict": {},
+           "catcodes": {}
+           }
 
 from config.config import (
                 train_csv_path,
@@ -11,14 +16,16 @@ from config.config import (
                 sample_train_csv_path,
                 sample_test_csv_path,
                 processed_train_csv_path,
-                processed_test_csv_path
+                processed_test_csv_path,
+                train_ffm_path,
+                test_ffm_path
 )
 
 def cleaning_csv_data(sampled_csv):
     '''
 
     :param sampled_csv:
-    :return: processes the sampled csv file
+    :return: target, numerics, categories, df
     '''
 
     if not Path(processed_test_csv_path).exists():
@@ -65,10 +72,15 @@ def cleaning_csv_data(sampled_csv):
 
         print(f"processed_{temp}.csv generated in datasets/data")
 
+        return target, numerics, categories, df
+
+def return_dataframe(cleaned_csv_file):
+    df = pd.read_csv(cleaned_csv_file)
+    return df
 
 if __name__ == '__main__':
     if not Path(train_csv_path).exists() or not Path(test_csv_path).exists() :
-        print('train.csv or test.csv does not exist')
+        print('train.csv or test.csv does not exist in datasets/data')
         sys.exit()
 
     print('Creating train_sample if does not exist')
@@ -77,9 +89,29 @@ if __name__ == '__main__':
     create_sample(test_csv_path, sample_test_csv_path)
 
     print("Cleaning sample train csv")
-    cleaning_csv_data(sample_train_csv_path)
+    target_train, numerics_train, categories_train, df_train = cleaning_csv_data(sample_train_csv_path)
+    encoded_train = _convert_to_ffm(
+        path=train_ffm_path,
+        df= df_train,
+        type='train',
+        target=target_train,
+        numerics=numerics_train,
+        categories=categories_train,
+        encoder=encoder
+    )
 
     print("Cleaning sample test csv")
-    cleaning_csv_data(sample_test_csv_path)
+    target_test, numerics_test, categories_test, df_test = cleaning_csv_data(test_csv_path)
+    encoded_test = _convert_to_ffm(
+        path=test_ffm_path,
+        df= df_test,
+        type='test',
+        target=target_test,
+        numerics=numerics_test,
+        categories=categories_test,
+        encoder=encoder
+    )
+
+
 
 
