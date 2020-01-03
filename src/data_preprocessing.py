@@ -79,10 +79,6 @@ def cleaning_csv_data(sampled_csv, processed_csv):
         target = 'click_bool'
         numerics = ['prop_review_score', 'prop_location_score1', 'prop_log_historical_price', 'price_usd']
         categories = []
-        for cols in df.columns:
-            if cols in numerics:
-                continue
-            categories.append(cols)
 
         for cols in df.columns:
             if not cols in numerics:
