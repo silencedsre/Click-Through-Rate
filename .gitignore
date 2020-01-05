@@ -5,3 +5,7 @@
 /datasets/basicPythonBenchmark.csv
 /datasets/randomBenchmark.csv
 /datasets/testOrderBenchmark.csv
+/datasets/data_libffm/test_ffm.txt
+/datasets/data_libffm/test_ffm.txt.bin
+/datasets/data_libffm/train_ffm.txt
+/datasets/data_libffm/train_ffm.txt.bin

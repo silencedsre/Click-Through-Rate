@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # click through rate prediction
 
 ### Objective : 
@@ -55,3 +56,21 @@ To find how likely the user clicks the search result based on these properties
 - comp1_rate_percent_diff -> The absolute **percentage difference in price** (if one exists) between Expedia and competitor 1’s price (Expedia’s price the denominator); **null signifies there is no competitive data**
 
 -comp2_rate ....... same 
+=======
+# Click Through Rate Prediction
+
+### Objective : 
+To find how likely the user clicks the search result based on various attributes
+
+## Data Download:  https://www.kaggle.com/c/expedia-personalized-sort/data
+After downloading the dataset, place `train.csv` and `test.csv` inside `datasets/data`
+
+### Runtime tested on: 
+Python 3.7.4
+
+### Instructions
+`pip install -r requirements.txt` <br/>
+`cd src` <br/>
+`python data_preprocessing.py` <br/>
+ `python model.py`
+>>>>>>> v1.0.00-shree
