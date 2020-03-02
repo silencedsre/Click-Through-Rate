@@ -14,3 +14,7 @@ Python 3.7.4
 `cd src` <br/>
 `python data_preprocessing.py` <br/>
  `python model.py`
+ 
+ ### References
+ 1. Rendle, S. (2010). [Factorization Machines](https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf)
+ 2. YuChin Juan, Yong Zhuang, and Wei-Sheng Chin (2016). [Field-aware Factorization Machines for CTR Prediction](https://www.andrew.cmu.edu/user/yongzhua/conferences/ffm.pdf)
